@@ -70,6 +70,15 @@ const TodoListProvider: React.FC<AppointmentsProviderProps> = ({
       }
     },
     editTask: async ({ todoId, todo, completed }: editTask) => {
+      // const editTask = taskInfo.map((obj) => {
+      //   if (obj.id === todoId) {
+      //     return { ...obj, title: todo, completed: completed };
+      //   }
+      //   return obj;
+      // });
+
+      // setTaskInfo(editTask);
+
       const result = await TodoService.editTodo(
         {
           title: todo,
