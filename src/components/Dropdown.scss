@@ -1,0 +1,58 @@
+.filter-container {
+  position: relative;
+  display: flex;
+  user-select: none;
+
+  .header-box {
+    background: #ffffff;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 92px;
+    padding: 7px 8px 7px 10px;
+
+    .icon {
+      width: 14px;
+      height: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .dropdown-container {
+    position: absolute;
+    top: calc(100% + 5px);
+    width: 110px;
+    z-index: 1001;
+
+    .dropdown-list {
+      padding: 10px 6px;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0px 0px 8px 0px #0000001a;
+      margin: 0;
+
+      .list-item {
+        list-style: none;
+        font-size: 14px;
+        line-height: 16px;
+        color: #2e2e2e;
+        cursor: pointer;
+        padding: 5px 8px;
+
+        &.selected {
+          border-radius: 8px;
+          background: #585292;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.task-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .task-text {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+  }
+}

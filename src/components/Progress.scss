@@ -1,0 +1,37 @@
+.progress-container {
+  background: #e07c7c;
+  border-radius: 20px;
+  padding: 18px 19px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+
+  .head-text {
+    color: #fff;
+    font-size: 28px;
+    line-height: 32px;
+    font-weight: 500;
+  }
+
+  .progress-bar {
+    background: #3b3b3b;
+    border-radius: 999px;
+    height: 7px;
+    width: 100%;
+
+    .percent-complete {
+      background: #ffffff;
+      border-radius: 999px;
+      height: 7px;
+    }
+  }
+
+  .progress-complete {
+    color: #ebb9b8;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0em;
+  }
+}
