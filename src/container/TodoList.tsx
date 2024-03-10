@@ -6,6 +6,7 @@ import "./TodoList.scss";
 
 const TodoList = () => {
   const [percent, setPercen] = useState(0);
+
   return (
     <div className="todos-container">
       <div className="progress-wrapper">

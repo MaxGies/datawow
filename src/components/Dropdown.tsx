@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useState, useEffect, useRef } from "react";
 import "./Dropdown.scss";
 
 interface Dropdown {
@@ -9,6 +9,7 @@ interface Dropdown {
 const Dropdown = ({ itemList, children }: Dropdown): ReactElement => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [filterSelect, setFilterSelect] = useState<string>(itemList[0]);
+  const menu = useRef<HTMLDivElement | null>(null);
 
   const toggling = () => setIsOpen(!isOpen);
 
@@ -17,8 +18,22 @@ const Dropdown = ({ itemList, children }: Dropdown): ReactElement => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    function handleClickOutside(event: TouchEvent | MouseEvent) {
+      if (menu.current && !menu.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [menu]);
+
   return (
-    <div className="filter-container">
+    <div className="filter-container" ref={menu}>
       <div className="header-box" onClick={toggling}>
         {children ? children : filterSelect}
         <div className="icon">

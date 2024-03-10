@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import "./Filter.scss";
 import Dropdown from "./Dropdown";
 
 const filterType = ["All", "Done", "Undown"];
 
-const Filter = () => {
+const Filter = (): ReactElement => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [filterSelect, setFilterSelect] = useState<string>(filterType[0]);
 

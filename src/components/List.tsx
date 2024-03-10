@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, ReactElement } from "react";
 import "./List.scss";
 
 const menuList = ["Edit", "Delete"];
@@ -9,11 +9,12 @@ interface List {
   listDetail: string | number;
 }
 
-const List = ({ isNew, isComplete, listDetail }: List) => {
+const List = ({ isNew, isComplete, listDetail }: List): ReactElement => {
   const [inputText, setInputText] = useState<string | number>(listDetail);
   const [isCheck, setIsCheck] = useState<boolean>(isComplete);
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const menu = useRef<HTMLDivElement | null>(null);
 
   const togglingCheck = () => setIsCheck(!isCheck);
   const togglingDropdown = () => setIsDropdown(!isDropdown);
@@ -26,7 +27,6 @@ const List = ({ isNew, isComplete, listDetail }: List) => {
   };
 
   const handleMenu = (type: string) => {
-    console.log(type);
     if (type === menuList[0]) {
       togglingEdit();
     } else if (type === menuList[1]) {
@@ -40,6 +40,20 @@ const List = ({ isNew, isComplete, listDetail }: List) => {
       setIsEdit(isNew);
     }
   }, [isNew]);
+
+  useEffect(() => {
+    function handleClickOutside(event: TouchEvent | MouseEvent) {
+      if (menu.current && !menu.current.contains(event.target as Node)) {
+        setIsDropdown(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [menu]);
 
   return (
     <div className="list-container">
@@ -75,7 +89,7 @@ const List = ({ isNew, isComplete, listDetail }: List) => {
         )}
       </div>
       {!isNew && (
-        <div className="menu-section">
+        <div className="menu-section" ref={menu}>
           {isEdit ? (
             <p className="save-edit" onClick={togglingEdit}>
               Save
