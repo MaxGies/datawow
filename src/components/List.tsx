@@ -1,28 +1,35 @@
 import { useEffect, useState, useRef, ReactElement } from "react";
 import "./List.scss";
+import { useTodoListState } from "../context/TodoListContext";
 
 const menuList = ["Edit", "Delete"];
 
 interface List {
   isNew?: boolean;
   isComplete: boolean;
-  listDetail: string | number;
+  listDetail: string;
+  id: string;
 }
 
-const List = ({ isNew, isComplete, listDetail }: List): ReactElement => {
-  const [inputText, setInputText] = useState<string | number>(listDetail);
+const List = ({ isNew, isComplete, listDetail, id }: List): ReactElement => {
+  const [inputText, setInputText] = useState<string>(listDetail);
   const [isCheck, setIsCheck] = useState<boolean>(isComplete);
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const menu = useRef<HTMLDivElement | null>(null);
+  const { actions } = useTodoListState();
 
-  const togglingCheck = () => setIsCheck(!isCheck);
   const togglingDropdown = () => setIsDropdown(!isDropdown);
   const togglingEdit = () => setIsEdit(!isEdit);
+  const togglingCheck = () => {
+    actions.editTask({ todoId: id, todo: inputText, completed: !isCheck });
+    setIsCheck(!isCheck);
+  };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === " Enter" && isNew) {
-      // handleAdd
+    if (event.key === "Enter" && isNew) {
+      actions.addTask(inputText);
+      setInputText("");
     }
   };
 
@@ -30,9 +37,14 @@ const List = ({ isNew, isComplete, listDetail }: List): ReactElement => {
     if (type === menuList[0]) {
       togglingEdit();
     } else if (type === menuList[1]) {
-      // handleDelete
+      actions.deleteTask(id);
     }
     setIsDropdown(false);
+  };
+
+  const handleSave = () => {
+    actions.editTask({ todoId: id, todo: inputText, completed: isCheck });
+    togglingEdit();
   };
 
   useEffect(() => {
@@ -91,7 +103,7 @@ const List = ({ isNew, isComplete, listDetail }: List): ReactElement => {
       {!isNew && (
         <div className="menu-section" ref={menu}>
           {isEdit ? (
-            <p className="save-edit" onClick={togglingEdit}>
+            <p className="save-edit" onClick={handleSave}>
               Save
             </p>
           ) : (

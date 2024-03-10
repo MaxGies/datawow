@@ -1,14 +1,15 @@
 import { ReactElement, ReactNode, useState, useEffect, useRef } from "react";
 import "./Dropdown.scss";
+import { useTodoListState } from "../context/TodoListContext";
 
 interface Dropdown {
-  itemList: string[];
   children?: ReactNode;
 }
 
-const Dropdown = ({ itemList, children }: Dropdown): ReactElement => {
+const Dropdown = ({ children }: Dropdown): ReactElement => {
+  const { actions, filterType } = useTodoListState();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [filterSelect, setFilterSelect] = useState<string>(itemList[0]);
+  const [filterSelect, setFilterSelect] = useState<string>(filterType[0]);
   const menu = useRef<HTMLDivElement | null>(null);
 
   const toggling = () => setIsOpen(!isOpen);
@@ -18,6 +19,12 @@ const Dropdown = ({ itemList, children }: Dropdown): ReactElement => {
     setIsOpen(false);
   };
 
+  //send filter to context
+  useEffect(() => {
+    actions.handleFilter(filterSelect);
+  }, [filterSelect]);
+
+  //click another element will close dropdown
   useEffect(() => {
     function handleClickOutside(event: TouchEvent | MouseEvent) {
       if (menu.current && !menu.current.contains(event.target as Node)) {
@@ -54,7 +61,7 @@ const Dropdown = ({ itemList, children }: Dropdown): ReactElement => {
       {isOpen && (
         <div className="dropdown-container">
           <ul className="dropdown-list">
-            {itemList.map((item) => (
+            {filterType.map((item) => (
               <li
                 key={item}
                 className={`list-item ${filterSelect === item && "selected"}`}

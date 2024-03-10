@@ -12,6 +12,8 @@ const Progress = ({ totalList, completeList }: Progress): ReactElement => {
   useEffect(() => {
     if (totalList && completeList) {
       setPercen((completeList / totalList) * 100);
+    } else {
+      setPercen(0);
     }
   }, [totalList, completeList]);
 
