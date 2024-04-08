@@ -15,7 +15,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 
 
-## You need to run your api before start project and the api is coming with data wow task
+## You need to run your api before start project, this api is coming with data wow task
 
 this is link github : [https://github.com/datawowio/todos-json-server](https://github.com/datawowio/todos-json-server)
 
